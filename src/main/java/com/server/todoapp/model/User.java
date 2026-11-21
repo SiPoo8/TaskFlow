@@ -1,12 +1,13 @@
 package com.server.todoapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
 public class User {
 
     @Id
@@ -16,9 +17,58 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(Long id, String username, String password, List<Task> tasks) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.tasks = tasks;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

@@ -1,11 +1,9 @@
 package com.server.todoapp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
 @Table(name = "tasks")
-@Data
 public class Task {
 
     @Id
@@ -15,9 +13,60 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
-    private boolean completed;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    private Boolean completed = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    public Task() {
+    }
+
+    public Task(String title, String description, Boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
